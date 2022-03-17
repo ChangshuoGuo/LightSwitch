@@ -1,5 +1,0 @@
-".\Objects\main.obj",
-".\Objects\delay.obj",
-".\Objects\Timer0.obj" 
-TO ".\Objects\LightSwitch" 
-PRINT(".\Listings\LightSwitch.m51") RAMSIZE(256) 

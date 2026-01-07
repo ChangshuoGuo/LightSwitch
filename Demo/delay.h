@@ -1,5 +1,5 @@
-#ifndef __DELAY_H__
-#define __DELAY_H__
+#ifndef _DELAY_H__
+#define _DELAY_H__
 
 void Delay(unsigned int xms);
 

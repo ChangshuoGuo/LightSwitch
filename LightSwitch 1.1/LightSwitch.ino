@@ -1,3 +1,6 @@
+/*
+ * 增加蓝牙功能，可通过手机APP控制
+ */
 #include <SoftwareSerial.h>
 #include <Servo.h>
 #include <IRremote.h>
@@ -5,7 +8,7 @@
 #define   OFF_ANGLE   60
 #define   ON_ANGLE    120
 
-SoftwareSerial JDYSerial(2, 3);   //`(*>﹏<*)′
+SoftwareSerial JDYSerial(2, 3);   //蓝牙模块TX->2,RX->3
 Servo SG90;
 IRrecv irrecv(11);
 decode_results results;
@@ -18,7 +21,7 @@ void setup() {
   Serial.begin(9600);
   JDYSerial.begin(9600);
 
-  pinMode(13, OUTPUT);    //13引脚输出高电平做IRrecv VCC，没有电源引脚了
+  pinMode(13, OUTPUT);    //13引脚输出高电平做IRrecv VCC
   digitalWrite(13, HIGH);
 
   SG90.attach(5);
@@ -27,26 +30,25 @@ void setup() {
   irrecv.enableIRIn(); // Start the receiver
 }
 
-void loop() {
+void loop() 
+{
   //  if (JDYSerial.available()) {
   //    Serial.println(JDYSerial.read());
   //  }
   //  if (Serial.available()) {
   //    JDYSerial.println(Serial.read());
   //  }
-  if (JDYSerial.available()) {
+  if (JDYSerial.available()) 
+  {
     light = JDYSerial.read();
+
     if (light == '1')
     {
-      SG90.write(ON_ANGLE);
-      delay(500);
-      SG90.write(90);
+      turnOn();
     }
     else if (light == '0')
     {
-      SG90.write(OFF_ANGLE);
-      delay(500);
-      SG90.write(90);
+      turnOff();
     }
   }
 
@@ -56,19 +58,16 @@ void loop() {
 
     if ( results.value == 0xFFA25D || results.value == 0xE318261B )
     {
-      SG90.write(ON_ANGLE);
-      delay(500);
-      SG90.write(90);
+      turnOn();
     }
     if ( results.value == 0xFF22DD || results.value == 0x52A3D41F )
     {
-      SG90.write(OFF_ANGLE);
-      delay(500);
-      SG90.write(90);
+      turnOff();
     }
 
     irrecv.resume(); //接收下一指令
   }
+
   delay(100);
 }
 

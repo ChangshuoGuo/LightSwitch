@@ -9,15 +9,12 @@ Servo SG90;
 IRrecv irrecv(11);
 decode_results results;
 
-int angle;
-
 void setup() {
   Serial.begin(9600);
   SG90.attach(3);
   SG90.write(90);
 
   irrecv.enableIRIn(); // Start the receiver
-
 }
 
 void loop() {
